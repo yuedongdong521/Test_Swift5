@@ -24,7 +24,7 @@ func GenericFunc() {
     
     testStack()
     
-    
+    testDouble()
     
     space()
 }
@@ -67,6 +67,15 @@ func testStack() {
 
     print("isTop : \(stack.isTop("c"))")
     
+    print(int1)
+}
+
+func testDouble() {
+    var double1 = DoubleStack()
+    double1.append(1.5)
+    double1.append(2.5)
+    double1.append(3.5)
+    print("double1 average \(double1.average())")
 }
 
 
@@ -181,4 +190,38 @@ extension Stack where T: Equatable {
         }
         return top == item
     }
+}
+/// 泛型 where 分句来要求 Item 为特定类型
+extension Container where Item == Double {
+    func average() -> Double {
+        var sum = 0.0
+        for index in 0..<count {
+            sum += self[index]
+        }
+        return sum / Double(count)
+    }
+}
+
+struct DoubleStack: Container {
+    
+    
+    mutating func append(_ item: Double) {
+        items.append(item)
+    }
+    
+    var count: Int {
+        get {
+            return items.count
+        }
+    }
+    
+    subscript(i: Int) -> Double {
+        if i < self.count {
+            return items[i]
+        }
+        return 0
+    }
+    
+    typealias Item = Double
+    var items = [Item]()
 }
